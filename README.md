@@ -31,7 +31,7 @@ A standalone Docker setup for Invoice Ninja with Nginx and Supervisor.
 
 5. **Access Invoice Ninja:**
    - Default: http://localhost:7077
-   - Login with the credentials you set in `.env`
+   - Use wizard for setup
 
 ## Services
 
