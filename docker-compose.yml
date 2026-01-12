@@ -1,0 +1,44 @@
+services:
+  invoiceninja:
+    container_name: invoiceninja
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: invoiceninja-with-nginx
+    restart: always
+    depends_on:
+      - ninjadb
+    volumes:
+      - app_data_invoiceninja:/var/www/html:rw,delegated
+      - ./.env:/var/www/html/.env:ro
+    networks:
+      - invoiceninja
+    env_file: .env
+    ports:
+      - "127.0.0.1:7077:80"
+    extra_hosts:
+      - "in5.localhost:192.168.0.124"
+
+  ninjadb:
+    container_name: ninjadb
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: ninja
+      MYSQL_DATABASE: ninja
+      MYSQL_USER: ninja
+      MYSQL_PASSWORD: ninja
+    restart: always
+    env_file: .env
+    volumes:
+      - db_data_invoiceninja:/var/lib/mysql:rw,delegated
+    networks:
+      - invoiceninja
+    extra_hosts:
+      - "in5.localhost:192.168.0.124"
+
+networks:
+  invoiceninja:
+
+volumes:
+  db_data_invoiceninja:
+  app_data_invoiceninja:
